@@ -141,11 +141,10 @@ void watch_modifiers(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
-bool ckc_qstm_pipe(uint16_t keycode, keyrecord_t *record) {
+bool ckc_qstm_pipe(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_QSTM_PIPE;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -162,11 +161,10 @@ bool ckc_qstm_pipe(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_more_less(uint16_t keycode, keyrecord_t *record) {
+bool ckc_more_less(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_MORE_LESS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -183,11 +181,10 @@ bool ckc_more_less(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_dot_comma(uint16_t keycode, keyrecord_t *record) {
+bool ckc_dot_comma(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_DOT_COMMA;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -202,11 +199,10 @@ bool ckc_dot_comma(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_equl_unds(uint16_t keycode, keyrecord_t *record) {
+bool ckc_equl_unds(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_EQUL_UNDS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -222,11 +218,10 @@ bool ckc_equl_unds(uint16_t keycode, keyrecord_t *record) {
 
 }
 
-bool ckc_lcbs_rcbs(uint16_t keycode, keyrecord_t *record) {
+bool ckc_lcbs_rcbs(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_LCBS_RCBS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -244,11 +239,10 @@ bool ckc_lcbs_rcbs(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_lsbs_rsbs(uint16_t keycode, keyrecord_t *record) {
+bool ckc_lsbs_rsbs(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_LSBS_RSBS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -263,11 +257,10 @@ bool ckc_lsbs_rsbs(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_slsh_bsls(uint16_t keycode, keyrecord_t *record) {
+bool ckc_slsh_bsls(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_SLSH_BSLS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -283,11 +276,10 @@ bool ckc_slsh_bsls(uint16_t keycode, keyrecord_t *record) {
 
 }
 
-bool ckc_plus_mnus(uint16_t keycode, keyrecord_t *record) {
+bool ckc_plus_mnus(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_PLUS_MNUS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -303,11 +295,10 @@ bool ckc_plus_mnus(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_lpts_rpts(uint16_t keycode, keyrecord_t *record) {
+bool ckc_lpts_rpts(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_LPTS_RPTS;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -324,11 +315,10 @@ bool ckc_lpts_rpts(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_squt_dqut(uint16_t keycode, keyrecord_t *record) {
+bool ckc_squt_dqut(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_SQUT_DQUT;
-    bool is_held = record->event.pressed;
 
-    if (!is_key || !is_held){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -343,16 +333,15 @@ bool ckc_squt_dqut(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool ckc_rctl(uint16_t keycode, keyrecord_t *record) {
+bool ckc_rctl(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_RCTL;
-    bool is_held = record->event.pressed;
 
 
     if (!is_key){
         return false;
     }
 
-    if (is_held) {
+    if (is_pressed) {
         register_code(KC_RIGHT_CTRL);
         rctrl_timer = timer_read();
         return true;
@@ -365,22 +354,18 @@ bool ckc_rctl(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    record->event.pressed = 1;
-    bool response = ckc_lpts_rpts(CKC_LPTS_RPTS, record);
-    record->event.pressed = 0;
+    bool response = ckc_lpts_rpts(CKC_LPTS_RPTS, 1);
     return response;
 }
 
-bool ckc_lctl(uint16_t keycode, keyrecord_t *record) {
+bool ckc_lctl(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_LCTL;
-    bool is_held = record->event.pressed;
-
 
     if (!is_key){
         return false;
     }
 
-    if (is_held) {
+    if (is_pressed) {
         register_code(KC_LEFT_CTRL);
         lctrl_timer = timer_read();
         return true;
@@ -393,22 +378,18 @@ bool ckc_lctl(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    record->event.pressed = 1;
-    bool response = ckc_lsbs_rsbs(CKC_LSBS_RSBS, record);
-    record->event.pressed = 0;
+    bool response = ckc_lsbs_rsbs(CKC_LSBS_RSBS, 1);
     return response;
 }
 
-bool ckc_lsft(uint16_t keycode, keyrecord_t *record) {
+bool ckc_lsft(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_LSFT;
-    bool is_held = record->event.pressed;
-
 
     if (!is_key){
         return false;
     }
 
-    if (is_held) {
+    if (is_pressed) {
         register_code(KC_LEFT_SHIFT);
         lsft_timer = timer_read();
         return true;
@@ -422,22 +403,18 @@ bool ckc_lsft(uint16_t keycode, keyrecord_t *record) {
     }
 
 
-    record->event.pressed = 1;
-    bool response = ckc_plus_mnus(CKC_PLUS_MNUS, record);
-    record->event.pressed = 0;
+    bool response = ckc_plus_mnus(CKC_PLUS_MNUS, 1);
     return response;
 }
 
-bool ckc_rsft(uint16_t keycode, keyrecord_t *record) {
+bool ckc_rsft(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_RSFT;
-    bool is_held = record->event.pressed;
-
 
     if (!is_key){
         return false;
     }
 
-    if (is_held) {
+    if (is_pressed) {
         register_code(KC_RIGHT_SHIFT);
         rsft_timer = timer_read();
         return true;
@@ -450,9 +427,7 @@ bool ckc_rsft(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    record->event.pressed = 1;
-    bool response = ckc_squt_dqut(CKC_SQUT_DQUT, record);
-    record->event.pressed = 0;
+    bool response = ckc_squt_dqut(CKC_SQUT_DQUT, 1);
     return response;
 }
 
@@ -574,43 +549,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     debug_log(keycode, record);
     watch_modifiers(keycode, record);
 
-    if(ckc_lcbs_rcbs(keycode, record)){
+    if(ckc_lcbs_rcbs(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_slsh_bsls(keycode, record)){
+    if(ckc_slsh_bsls(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_equl_unds(keycode, record)){
+    if(ckc_equl_unds(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_dot_comma(keycode, record)){
+    if(ckc_dot_comma(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_more_less(keycode, record)){
+    if(ckc_more_less(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_qstm_pipe(keycode, record)){
+    if(ckc_qstm_pipe(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_rctl(keycode, record)){
+    if(ckc_rctl(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_lctl(keycode, record)){
+    if(ckc_lctl(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_rsft(keycode, record)){
+    if(ckc_rsft(keycode, record->event.pressed)){
         return false;
     }
 
-    if(ckc_lsft(keycode, record)){
+    if(ckc_lsft(keycode, record->event.pressed)){
         return false;
     }
 
