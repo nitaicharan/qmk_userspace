@@ -155,15 +155,11 @@ bool ckc_qstm_pipe(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_qstm_pipe", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_BSLS);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_BSLS));
         return true;
     }
 
-    register_code(KC_LEFT_SHIFT);
-    tap_code(KC_SLASH);
-    unregister_code(KC_LEFT_SHIFT);
+    tap_code16(S(KC_SLASH));
     return true;
 }
 
@@ -177,15 +173,11 @@ bool ckc_more_less(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_more_less", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_DOT);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_DOT));
         return true;
     }
 
-    register_code(KC_LEFT_SHIFT);
-    tap_code(KC_COMMA);
-    unregister_code(KC_LEFT_SHIFT);
+    tap_code16(S(KC_COMMA));
     return true;
 }
 
@@ -219,9 +211,7 @@ bool ckc_equl_unds(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_equl_unds", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_MINUS);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_MINUS));
         return true;
     }
 
@@ -240,16 +230,12 @@ bool ckc_lcbs_rcbs(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lcbs_rcbs", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_RIGHT_BRACKET);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_RIGHT_BRACKET));
         return true;
     }
 
 
-    register_code(KC_LEFT_SHIFT);
-    tap_code(KC_LEFT_BRACKET);
-    unregister_code(KC_LEFT_SHIFT);
+    tap_code16(S(KC_LEFT_BRACKET));
     return true;
 }
 
@@ -309,9 +295,7 @@ bool ckc_plus_mnus(uint16_t keycode, bool is_pressed) {
         return true;
     }
 
-    register_code(KC_LEFT_SHIFT);
-    tap_code(KC_EQUAL);
-    unregister_code(KC_LEFT_SHIFT);
+    tap_code16(S(KC_EQUAL));
     return true;
 }
 
@@ -325,15 +309,11 @@ bool ckc_lpts_rpts(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lpts_rpts", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_0);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_0));
         return true;
     }
 
-    register_code(KC_LEFT_SHIFT);
-    tap_code(KC_9);
-    unregister_code(KC_LEFT_SHIFT);
+    tap_code16(S(KC_9));
     return true;
 }
 
@@ -347,9 +327,7 @@ bool ckc_squt_dqut(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_squt_dqut", keycode, is_pressed);
 
     if (lsft_held) {
-        register_code(KC_LEFT_SHIFT);
-        tap_code(KC_QUOTE);
-        unregister_code(KC_LEFT_SHIFT);
+        tap_code16(S(KC_QUOTE));
         return true;
     }
 
