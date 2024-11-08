@@ -1,5 +1,8 @@
 #pragma once
 
+#define BOOTMAGIC_ROW 0
+#define BOOTMAGIC_COLUMN 0
+
 //#define USE_MATRIX_I2C
 
 #define MASTER_LEFT
