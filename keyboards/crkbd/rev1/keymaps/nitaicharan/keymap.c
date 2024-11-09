@@ -624,8 +624,8 @@ const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_E, KC_E
 const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, KC_G, KC_ESC);
 const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, KC_N, KC_TAB);
 
-const key_override_t **key_overrides = (const key_override_t *[]){
-	&delete_key_override,
+const key_override_t *key_overrides[] = {
+    &delete_key_override,
     &left_key_override,
     &right_key_override,
     &up_key_override,
@@ -633,7 +633,6 @@ const key_override_t **key_overrides = (const key_override_t *[]){
     &enter_key_override,
     &escape_key_override,
     &tab_key_override,
-    NULL
 };
 
 void keyboard_post_init_user(void) {
