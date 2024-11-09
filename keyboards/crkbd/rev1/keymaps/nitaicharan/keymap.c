@@ -8,20 +8,37 @@ enum layers {
 };
 
 enum custom_keys {
-    CKC_QSTM_PIPE = SAFE_RANGE,
-    CKC_MORE_LESS,
-    CKC_SLSH_BSLS,
-    CKC_DOT_COMMA,
-    CKC_EQUL_UNDS,
-    CKC_PLUS_MNUS,
-    CKC_LCBS_RCBS,
-    CKC_LSBS_RSBS,
-    CKC_LPTS_RPTS,
-    CKC_SQUT_DQUT,
-    CKC_RCTL,
-    CKC_LCTL,
-    CKC_RSFT,
-    CKC_LSFT,
+    // Symbols
+    CKC_QSTM_PIPE = SAFE_RANGE,  // Question mark and pipe
+    CKC_MORE_LESS,               // Greater than and less than
+    CKC_SLSH_BSLS,              // Forward slash and backslash
+    CKC_DOT_COMMA,              // Dot and comma
+    CKC_EQUL_UNDS,              // Equal and underscore
+    CKC_PLUS_MNUS,              // Plus and minus
+    CKC_LCBS_RCBS,              // Left/right curly braces
+    CKC_LSBS_RSBS,              // Left/right square brackets
+    CKC_LPTS_RPTS,              // Left/right parentheses
+    CKC_SQUT_DQUT,              // Single/double quotes
+
+    // Modifiers
+    CKC_LALT,                   // Left Alt
+    CKC_RALT,                   // Right Alt
+    CKC_LGUI,                   // Left GUI
+    CKC_RGUI,                   // Right GUI
+    CKC_LCTL,                   // Left Control
+    CKC_RCTL,                   // Right Control
+    CKC_LSFT,                   // Left Shift
+    CKC_RSFT,                   // Right Shift
+
+    // Home row mods
+    CKC_A_LALT,                 // A + Left Alt
+    CKC_S_LSFT,                 // S + Left Shift
+    CKC_D_LCTL,                 // D + Left Control
+    CKC_F_LGUI,                 // F + Left GUI
+    CKC_J_RGUI,                 // J + Right GUI
+    CKC_K_RCTL,                 // K + Right Control
+    CKC_L_RSFT,                 // L + Right Shift
+    CKC_SCLN_RALT,             // Semicolon + Right Alt
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -29,9 +46,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
         LT(_NUMBER_LAYER, KC_GRV),          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,               CKC_LCBS_RCBS,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                         CKC_LSFT,          KC_A,          KC_S,          KC_D,          KC_F,          KC_G,                                           KC_H,          KC_J,          KC_K,          KC_L,       KC_SCLN,                    CKC_RSFT,
+                          XXXXXXX,     CKC_A_LALT,    CKC_S_LSFT,    CKC_D_LCTL,    CKC_F_LGUI,          KC_G,                                          KC_H,    CKC_J_RGUI,    CKC_K_RCTL,    CKC_L_RSFT, CKC_SCLN_RALT,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                         CKC_LCTL,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M, CKC_MORE_LESS, CKC_DOT_COMMA, CKC_QSTM_PIPE,                    CKC_RCTL,
+                          XXXXXXX,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M, CKC_MORE_LESS, CKC_DOT_COMMA, CKC_QSTM_PIPE,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                LGUI_T(KC_DEL),      KC_SPACE,       KC_LALT,          KC_RALT,      KC_SPACE,              RGUI_T(KC_BSPC)
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
@@ -72,6 +89,10 @@ uint16_t rctrl_timer;
 uint16_t lctrl_timer;
 uint16_t rsft_timer;
 uint16_t lsft_timer;
+uint16_t lalt_timer;
+uint16_t ralt_timer;
+uint16_t lgui_timer;
+uint16_t rgui_timer;
 
 bool is_tap_rctrl;
 bool is_tap_lctrl;
@@ -152,7 +173,7 @@ bool ckc_qstm_pipe(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_qstm_pipe", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_QSTM_PIPE", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_BSLS));
@@ -170,7 +191,7 @@ bool ckc_more_less(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_more_less", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_MORE_LESS", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_DOT));
@@ -188,7 +209,7 @@ bool ckc_dot_comma(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_dot_comma", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_DOT_COMMA", keycode, is_pressed);
 
     if (lsft_held) {
         unregister_code(KC_LEFT_SHIFT);
@@ -208,7 +229,7 @@ bool ckc_equl_unds(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_equl_unds", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_EQUL_UNDS", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_MINUS));
@@ -227,7 +248,7 @@ bool ckc_lcbs_rcbs(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lcbs_rcbs", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_LCBS_RCBS", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_RIGHT_BRACKET));
@@ -246,7 +267,7 @@ bool ckc_lsbs_rsbs(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lsbs_rsbs", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_LSBS_RSBS", keycode, is_pressed);
 
     if (!rsft_held) {
         tap_code(KC_LBRC);
@@ -266,7 +287,7 @@ bool ckc_slsh_bsls(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_slsh_bsls", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_SLSH_BSLS", keycode, is_pressed);
 
     if (lsft_held) {
         unregister_code(KC_LEFT_SHIFT);
@@ -287,7 +308,7 @@ bool ckc_plus_mnus(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_plus_mnus", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_PLUS_MNUS", keycode, is_pressed);
     if (rsft_held) {
         unregister_code(KC_RIGHT_SHIFT);
         tap_code(KC_MINUS);
@@ -306,7 +327,7 @@ bool ckc_lpts_rpts(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lpts_rpts", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_LPTS_RPTS", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_0));
@@ -324,7 +345,7 @@ bool ckc_squt_dqut(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_squt_dqut", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_SQUT_DQUT", keycode, is_pressed);
 
     if (lsft_held) {
         tap_code16(S(KC_QUOTE));
@@ -343,7 +364,7 @@ bool ckc_rctl(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_rctl", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_RCTL", keycode, is_pressed);
 
     if (is_pressed) {
         register_code(KC_RIGHT_CTRL);
@@ -368,7 +389,7 @@ bool ckc_lctl(uint16_t keycode, bool is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "ckc_lctl", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_LCTL", keycode, is_pressed);
 
     if (is_pressed) {
         register_code(KC_LEFT_CTRL);
@@ -450,6 +471,184 @@ bool ckc_rsft(uint16_t keycode, bool is_pressed) {
     bool response = ckc_squt_dqut(CKC_SQUT_DQUT, 1);
     return response;
 }
+
+bool ckc_s_lsft(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_S_LSFT;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_S_LSFT", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_LEFT_SHIFT);
+        watch_modifiers(CKC_LSFT, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_LEFT_SHIFT);
+    if (timer_elapsed(lsft_timer) < TAPPING_TERM) {
+        tap_code(KC_S);
+    }
+    return true;
+}
+
+bool ckc_a_lalt(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_A_LALT;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_A_LALT", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_LEFT_ALT);
+        watch_modifiers(CKC_LALT, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_LEFT_ALT);
+    if (timer_elapsed(lalt_timer) < TAPPING_TERM) {
+        tap_code(KC_A);
+    }
+    return true;
+}
+
+bool ckc_d_lctl(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_D_LCTL;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_D_LCTL", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_LEFT_CTRL);
+        watch_modifiers(CKC_LCTL, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_LEFT_CTRL);
+    if (timer_elapsed(lctrl_timer) < TAPPING_TERM) {
+        tap_code(KC_D);
+    }
+    return true;
+}
+
+bool ckc_f_lgui(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_F_LGUI;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_F_LGUI", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_LEFT_GUI);
+        watch_modifiers(CKC_LGUI, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_LEFT_GUI);
+    if (timer_elapsed(lgui_timer) < TAPPING_TERM) {
+        tap_code(KC_F);
+    }
+    return true;
+}
+
+bool ckc_j_rgui(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_J_RGUI;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_J_RGUI", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_RIGHT_GUI);
+        watch_modifiers(CKC_RGUI, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_RIGHT_GUI);
+    if (timer_elapsed(rgui_timer) < TAPPING_TERM) {
+        tap_code(KC_J);
+    }
+    return true;
+}
+
+bool ckc_k_rctl(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_K_RCTL;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_K_RCTL", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_RIGHT_CTRL);
+        watch_modifiers(CKC_RCTL, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_RIGHT_CTRL);
+    if (timer_elapsed(rctrl_timer) < TAPPING_TERM) {
+        tap_code(KC_K);
+    }
+    return true;
+}
+
+bool ckc_l_rsft(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_L_RSFT;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_L_RSFT", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_RIGHT_SHIFT);
+        watch_modifiers(CKC_RSFT, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_RIGHT_SHIFT);
+    if (timer_elapsed(rsft_timer) < TAPPING_TERM) {
+        tap_code(KC_L);
+    }
+    return true;
+}
+
+bool ckc_scln_ralt(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_SCLN_RALT;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_SCLN_RALT", keycode, is_pressed);
+
+    if (is_pressed) {
+        register_code(KC_RIGHT_ALT);
+        watch_modifiers(CKC_RALT, is_pressed);
+        return true;
+    }
+
+    unregister_code(KC_RIGHT_ALT);
+    if (timer_elapsed(ralt_timer) < TAPPING_TERM) {
+        tap_code(KC_SEMICOLON);
+    }
+    return true;
+}
+
+
 
 void debug_log(char location[], uint16_t keycode, keyrecord_t *record) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u, time: %5u, int: %u, count: %u\n", location, keycode, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
@@ -567,7 +766,35 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     debug_log("process_record_user", keycode, record);
     watch_modifiers(keycode, record->event.pressed);
 
-    if(ckc_lcbs_rcbs(keycode, record->event.pressed)){
+    if(ckc_a_lalt(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_s_lsft(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_d_lctl(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_f_lgui(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_j_rgui(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_k_rctl(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_l_rsft(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_scln_ralt(keycode, record->event.pressed)){
         return false;
     }
 
@@ -595,33 +822,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if(ckc_rctl(keycode, record->event.pressed)){
-        return false;
-    }
-
-    if(ckc_lctl(keycode, record->event.pressed)){
-        return false;
-    }
-
-    if(ckc_rsft(keycode, record->event.pressed)){
-        return false;
-    }
-
-    if(ckc_lsft(keycode, record->event.pressed)){
-        return false;
-    }
-
     return true;
 }
 
 
 const key_override_t delete_key_override = ko_make_basic(KC_RSFT, RGUI_T(KC_BSPC), KC_DEL);
 const key_override_t left_key_override = ko_make_basic(MOD_MASK_GUI, KC_H, KC_LEFT);
-const key_override_t right_key_override = ko_make_basic(MOD_MASK_GUI, KC_L, KC_RIGHT);
-const key_override_t up_key_override = ko_make_basic(MOD_MASK_GUI, KC_K, KC_UP);
-const key_override_t down_key_override = ko_make_basic(MOD_MASK_GUI, KC_J, KC_DOWN);
+const key_override_t right_key_override = ko_make_basic(MOD_MASK_GUI, CKC_L_RSFT, KC_RIGHT);
+const key_override_t up_key_override = ko_make_basic(MOD_MASK_GUI, CKC_K_RCTL, KC_UP);
+const key_override_t down_key_override = ko_make_basic(MOD_MASK_GUI, CKC_J_RGUI, KC_DOWN);
 const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_E, KC_ENTER);
-const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, KC_G, KC_ESC);
+const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, CKC_F_LGUI, KC_ESC);
 const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, KC_N, KC_TAB);
 
 const key_override_t *key_overrides[] = {
@@ -637,7 +848,7 @@ const key_override_t *key_overrides[] = {
 
 void keyboard_post_init_user(void) {
   // Customise these values to desired behaviour
-  debug_enable=false;
+  debug_enable=true;
   // debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
