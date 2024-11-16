@@ -8,8 +8,12 @@ enum layers {
 };
 
 enum custom_keys {
+    // Letters
+    CKC_E = SAFE_RANGE,          // Letter E with custom behavior
+    CKC_G,                       // Letter G with custom behavior
+    CKC_N,                       // Letter N with custom behavior
     // Symbols
-    CKC_QSTM_PIPE = SAFE_RANGE,  // Question mark and pipe
+    CKC_QSTM_PIPE,              // Question mark and pipe
     CKC_MORE_LESS,               // Greater than and less than
     CKC_SLSH_BSLS,              // Forward slash and backslash
     CKC_DOT_COMMA,              // Dot and comma
@@ -44,9 +48,9 @@ enum custom_keys {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_LAYER] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
-        LT(_NUMBER_LAYER, KC_GRV),          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,               CKC_LCBS_RCBS,
+        LT(_NUMBER_LAYER, KC_GRV),          KC_Q,          KC_W,        CKC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,               CKC_LCBS_RCBS,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          XXXXXXX,     CKC_A_LALT,    CKC_S_LSFT,    CKC_D_LCTL,    CKC_F_LGUI,          KC_G,                                          KC_H,    CKC_J_RGUI,    CKC_K_RCTL,    CKC_L_RSFT, CKC_SCLN_RALT,                     XXXXXXX,
+                          XXXXXXX,     CKC_A_LALT,    CKC_S_LSFT,    CKC_D_LCTL,    CKC_F_LGUI,        CKC_G,                                          KC_H,    CKC_J_RGUI,    CKC_K_RCTL,    CKC_L_RSFT, CKC_SCLN_RALT,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                           XXXXXXX,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M, CKC_MORE_LESS, CKC_DOT_COMMA, CKC_QSTM_PIPE,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
@@ -755,6 +759,57 @@ bool oled_task_user(void) {
 }
 
 #endif // OLED_ENABLE
+bool ckc_e(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_E;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_E", keycode, is_pressed);
+
+    if (is_pressed) {
+        tap_code(KC_E);
+        return true;
+    }
+
+    return true;
+}
+
+bool ckc_g(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_G;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_G", keycode, is_pressed);
+
+    if (is_pressed) {
+        tap_code(KC_G);
+        return true;
+    }
+
+    return true;
+}
+
+bool ckc_n(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_N;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_N", keycode, is_pressed);
+
+    if (is_pressed) {
+        tap_code(KC_N);
+        return true;
+    }
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef OLED_ENABLE
@@ -765,6 +820,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     debug_log("process_record_user", keycode, record);
     watch_modifiers(keycode, record->event.pressed);
+
+    if(ckc_e(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_g(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ckc_n(keycode, record->event.pressed)){
+        return false;
+    }
 
     if(ckc_a_lalt(keycode, record->event.pressed)){
         return false;
@@ -831,9 +898,9 @@ const key_override_t left_key_override = ko_make_basic(MOD_MASK_GUI, KC_H, KC_LE
 const key_override_t right_key_override = ko_make_basic(MOD_MASK_GUI, CKC_L_RSFT, KC_RIGHT);
 const key_override_t up_key_override = ko_make_basic(MOD_MASK_GUI, CKC_K_RCTL, KC_UP);
 const key_override_t down_key_override = ko_make_basic(MOD_MASK_GUI, CKC_J_RGUI, KC_DOWN);
-const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_E, KC_ENTER);
+const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, CKC_E, KC_ENTER);
 const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, CKC_F_LGUI, KC_ESC);
-const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, KC_N, KC_TAB);
+const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, CKC_N, KC_TAB);
 
 const key_override_t *key_overrides[] = {
     &delete_key_override,
