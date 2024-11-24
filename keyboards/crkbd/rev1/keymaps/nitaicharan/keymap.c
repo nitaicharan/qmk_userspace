@@ -100,7 +100,6 @@ bool is_tap_lctrl;
 bool is_tap_rsft;
 bool is_tap_lsft;
 
-
 bool ckc_plus_mnus_registed = false;
 
 void watch_modifiers(uint16_t keycode, bool is_pressed) {
@@ -423,6 +422,14 @@ bool ckc_s_lsft(uint16_t keycode, bool is_pressed) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_S_LSFT", keycode, is_pressed);
 
+    if (is_pressed && get_mods() & MOD_MASK_SHIFT) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_SHIFT);
+        tap_code16(S(KC_S));
+        set_mods(mod_state);
+        return true;
+    }
+
     if (is_pressed) {
         register_code(KC_LEFT_SHIFT);
         watch_modifiers(CKC_LSFT, is_pressed);
@@ -502,6 +509,31 @@ bool ckc_f_lgui(uint16_t keycode, bool is_pressed) {
     return true;
 }
 
+bool ckc_h(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == CKC_H;
+
+    if (!is_key) {
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_H", keycode, is_pressed);
+
+    if (!is_pressed) {
+        return true;
+    }
+
+    if (get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
+        tap_code(KC_LEFT);
+        set_mods(mod_state);
+        return true;
+    }
+
+    tap_code(KC_H);
+    return true;
+}
+
 bool ckc_j_rgui(uint16_t keycode, bool is_pressed) {
     bool is_key = keycode == CKC_J_RGUI;
 
@@ -511,6 +543,14 @@ bool ckc_j_rgui(uint16_t keycode, bool is_pressed) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_J_RGUI", keycode, is_pressed);
 
+    if (is_pressed && get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
+        tap_code(KC_DOWN);
+        set_mods(mod_state);
+        return true;
+    }
+
     if (is_pressed) {
         register_code(KC_RIGHT_GUI);
         watch_modifiers(CKC_RGUI, is_pressed);
@@ -519,11 +559,6 @@ bool ckc_j_rgui(uint16_t keycode, bool is_pressed) {
 
     unregister_code(KC_RIGHT_GUI);
     if (timer_elapsed(rgui_timer) > TAPPING_TERM) {
-        return true;
-    }
-
-    if (get_mods() & MOD_MASK_GUI) {
-        tap_code(KC_DOWN);
         return true;
     }
 
@@ -540,6 +575,14 @@ bool ckc_k_rctl(uint16_t keycode, bool is_pressed) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_K_RCTL", keycode, is_pressed);
 
+    if (is_pressed && get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
+        tap_code(KC_UP);
+        set_mods(mod_state);
+        return true;
+    }
+
     if (is_pressed) {
         register_code(KC_RIGHT_CTRL);
         watch_modifiers(CKC_RCTL, is_pressed);
@@ -548,11 +591,6 @@ bool ckc_k_rctl(uint16_t keycode, bool is_pressed) {
 
     unregister_code(KC_RIGHT_CTRL);
     if (timer_elapsed(rctrl_timer) > TAPPING_TERM) {
-        return true;
-    }
-
-    if (get_mods() & MOD_MASK_GUI) {
-        tap_code(KC_UP);
         return true;
     }
 
@@ -569,6 +607,22 @@ bool ckc_l_rsft(uint16_t keycode, bool is_pressed) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_L_RSFT", keycode, is_pressed);
 
+    if (is_pressed && get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
+        tap_code(KC_RIGHT);
+        set_mods(mod_state);
+        return true;
+    }
+
+    if (is_pressed && get_mods() & MOD_MASK_SHIFT) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_SHIFT);
+        tap_code16(S(KC_L));
+        set_mods(mod_state);
+        return true;
+    }
+
     if (is_pressed) {
         register_code(KC_RIGHT_SHIFT);
         watch_modifiers(CKC_RSFT, is_pressed);
@@ -577,11 +631,6 @@ bool ckc_l_rsft(uint16_t keycode, bool is_pressed) {
 
     unregister_code(KC_RIGHT_SHIFT);
     if (timer_elapsed(rsft_timer) > TAPPING_TERM) {
-        return true;
-    }
-
-    if (get_mods() & MOD_MASK_GUI) {
-        tap_code(KC_RIGHT);
         return true;
     }
 
@@ -625,7 +674,10 @@ bool ckc_e(uint16_t keycode, bool is_pressed) {
     }
 
     if (get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
         tap_code(KC_ENTER);
+        set_mods(mod_state);
         return true;
     }
 
@@ -648,12 +700,14 @@ bool ckc_g(uint16_t keycode, bool is_pressed) {
     }
 
     if (get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
         tap_code(KC_ESC);
+        set_mods(mod_state);
         return true;
     }
 
     tap_code(KC_G);
-
     return true;
 }
 
@@ -671,34 +725,14 @@ bool ckc_n(uint16_t keycode, bool is_pressed) {
     }
 
     if (get_mods() & MOD_MASK_GUI) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_GUI);
         tap_code(KC_TAB);
+        set_mods(mod_state);
         return true;
     }
 
     tap_code(KC_N);
-
-    return true;
-}
-
-bool ckc_h(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == CKC_H;
-
-    if (!is_key) {
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "CKC_H", keycode, is_pressed);
-
-    if (!is_pressed) {
-        return true;
-    }
-
-    if (get_mods() & MOD_MASK_GUI) {
-        tap_code(KC_LEFT);
-        return true;
-    }
-
-    tap_code(KC_H);
     return true;
 }
 
