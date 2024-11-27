@@ -32,16 +32,6 @@ enum custom_keys {
     // Symbols
     CKC_SLSH_BSLS,              // Forward slash and backslash
     CKC_EQUL_UNDS,              // Equal and underscore
-
-    // Modifiers
-    CKC_LALT,                   // Left Alt
-    CKC_RALT,                   // Right Alt
-    CKC_LGUI,                   // Left GUI
-    CKC_RGUI,                   // Right GUI
-    CKC_LCTL,                   // Right Control
-    CKC_RCTL,                   // Right Control
-    CKC_LSFT,                   // Left Shift
-    CKC_RSFT,                   // Right Shift
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -102,14 +92,14 @@ bool ckc_plus_mnus_registed = false;
 
 void watch_modifiers(uint16_t keycode, bool is_pressed) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "watch_modifiers", keycode, is_pressed);
-    bool is_rctl = keycode == CKC_RCTL;
-    bool is_lctl = keycode == CKC_LCTL;
-    bool is_rsft = keycode == CKC_RSFT;
-    bool is_lsft = keycode == CKC_LSFT;
-    bool is_lalt = keycode == CKC_LALT;
-    bool is_ralt = keycode == CKC_RALT;
-    bool is_lgui = keycode == CKC_LGUI;
-    bool is_rgui = keycode == CKC_RGUI;
+    bool is_rctl = keycode == KC_RIGHT_CTRL;
+    bool is_lctl = keycode == KC_LEFT_CTRL;
+    bool is_lsft = keycode == KC_LEFT_SHIFT;
+    bool is_rsft = keycode == KC_RIGHT_SHIFT;
+    bool is_lalt = keycode == KC_LEFT_ALT;
+    bool is_ralt = keycode == KC_RIGHT_ALT;
+    bool is_lgui = keycode == KC_LEFT_GUI;
+    bool is_rgui = keycode == KC_RIGHT_GUI;
 
     if (is_pressed) {
         last_key_timer = timer_read();
@@ -405,7 +395,7 @@ bool ckc_1_15(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_LEFT_SHIFT);
-        watch_modifiers(CKC_LSFT, is_pressed);
+        watch_modifiers(KC_LEFT_SHIFT, is_pressed);
         return true;
     }
 
@@ -427,7 +417,7 @@ bool ckc_1_14(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_LEFT_ALT);
-        watch_modifiers(CKC_LALT, is_pressed);
+        watch_modifiers(KC_LEFT_ALT, is_pressed);
         return true;
     }
 
@@ -449,7 +439,7 @@ bool ckc_1_16(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_LEFT_CTRL);
-        watch_modifiers(CKC_LCTL, is_pressed);
+        watch_modifiers(KC_LEFT_CTRL, is_pressed);
         return true;
     }
 
@@ -471,7 +461,7 @@ bool ckc_1_17(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_LEFT_GUI);
-        watch_modifiers(CKC_LGUI, is_pressed);
+        watch_modifiers(KC_LEFT_GUI, is_pressed);
         return true;
     }
 
@@ -526,7 +516,7 @@ bool ckc_1_20(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_RIGHT_GUI);
-        watch_modifiers(CKC_RGUI, is_pressed);
+        watch_modifiers(KC_RIGHT_GUI, is_pressed);
         return true;
     }
 
@@ -558,7 +548,7 @@ bool ckc_1_21(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_RIGHT_CTRL);
-        watch_modifiers(CKC_RCTL, is_pressed);
+        watch_modifiers(KC_RIGHT_CTRL, is_pressed);
         return true;
     }
 
@@ -598,7 +588,7 @@ bool ckc_1_22(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_RIGHT_SHIFT);
-        watch_modifiers(CKC_RSFT, is_pressed);
+        watch_modifiers(KC_RIGHT_SHIFT, is_pressed);
         return true;
     }
 
@@ -622,7 +612,7 @@ bool ckc_1_23(uint16_t keycode, bool is_pressed) {
 
     if (is_pressed) {
         register_code(KC_RIGHT_ALT);
-        watch_modifiers(CKC_RALT, is_pressed);
+        watch_modifiers(KC_RIGHT_ALT, is_pressed);
         return true;
     }
 
