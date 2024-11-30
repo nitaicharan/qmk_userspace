@@ -83,10 +83,6 @@ uint16_t ralt_timer;
 uint16_t lgui_timer;
 uint16_t rgui_timer;
 
-bool is_tap_rctrl;
-bool is_tap_lctrl;
-bool is_tap_rsft;
-bool is_tap_lsft;
 
 bool ckc_plus_mnus_registed = false;
 
@@ -115,7 +111,6 @@ void watch_modifiers(uint16_t keycode, bool is_pressed) {
             return;
         }
 
-        is_tap_rctrl = timer_elapsed(rctrl_timer) < TAPPING_TERM;
         return;
     }
 
@@ -125,7 +120,6 @@ void watch_modifiers(uint16_t keycode, bool is_pressed) {
             return;
         }
 
-        is_tap_lctrl = timer_elapsed(lctrl_timer) < TAPPING_TERM;
         return;
     }
 
@@ -135,7 +129,6 @@ void watch_modifiers(uint16_t keycode, bool is_pressed) {
             return;
         }
 
-        is_tap_rsft = timer_elapsed(rsft_timer) < TAPPING_TERM;
         return;
     }
 
@@ -145,7 +138,6 @@ void watch_modifiers(uint16_t keycode, bool is_pressed) {
             return;
         }
 
-        is_tap_lsft = timer_elapsed(lsft_timer) < TAPPING_TERM;
         return;
     }
 
