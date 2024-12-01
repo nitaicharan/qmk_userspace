@@ -10,11 +10,11 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_LAYER] = LAYOUT_split_3x6_3(
   //|-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------|
-        LT(_NUMBER_LAYER, KC_GRV),          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LEFT_CURLY_BRACE,
+                           KC_GRV,          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LEFT_CURLY_BRACE,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                         KC_MINUS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     RALT_SCLN,                     KC_QUOT,
+                         L1_MINUS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     RALT_SCLN,                     KC_QUOT,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                  KC_LEFT_BRACKET,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_COMM,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
+                          L2_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_COMM,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                LGUI_T(KC_DEL),      KC_SPACE,       KC_LALT,          KC_RALT,      KC_SPACE,              RGUI_T(KC_BSPC)
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
                           XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_TRNS,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       KC_VOLD,       KC_VOLU,      XXXXXXX,       XXXXXXX,                      KC_TRNS,
+                          KC_TRNS,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       KC_VOLD,       KC_VOLU,       XXXXXXX,       XXXXXXX,                     KC_TRNS,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                           KC_TRNS,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       UG_VALD,       UG_VALU,       XXXXXXX,       XXXXXXX,                     KC_TRNS,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
@@ -178,6 +178,27 @@ bool kc_slash(uint16_t keycode, bool is_pressed) {
     return true;
 }
 
+bool kc_dot(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == KC_DOT;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_DOT", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_SHIFT);
+        tap_code(KC_COMMA);
+        set_mods(mod_state);
+        return true;
+    }
+
+    tap_code(KC_DOT);
+    return true;
+}
+
 #ifdef OLED_ENABLE
 #include <stdio.h>
 
@@ -314,6 +335,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if(kc_slash(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(kc_dot(keycode, record->event.pressed)){
         return false;
     }
 
