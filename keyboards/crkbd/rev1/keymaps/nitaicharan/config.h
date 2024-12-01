@@ -12,6 +12,18 @@
 #define TAPPING_TERM 135
 //#define QUICK_TAP_TERM 0
 
+#define PERMISSIVE_HOLD
+
+#define LALT_A LALT_T(KC_A)
+#define LSFT_S LSFT_T(KC_S)
+#define LCTL_D LCTL_T(KC_D)
+#define LGUI_F LGUI_T(KC_F)
+
+#define RGUI_J RGUI_T(KC_J)
+#define RCTL_K RCTL_T(KC_K)
+#define RSFT_L RSFT_T(KC_L)
+#define RALT_SCLN RALT_T(KC_SCLN)
+
 #ifdef RGBLIGHT_ENABLE
     #define RGBLIGHT_EFFECT_BREATHING
     #define RGBLIGHT_EFFECT_RAINBOW_MOOD
