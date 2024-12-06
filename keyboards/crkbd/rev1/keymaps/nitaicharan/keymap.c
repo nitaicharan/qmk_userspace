@@ -14,7 +14,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                          L1_MINUS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     RALT_SCLN,                     KC_QUOT,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          L2_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_COMM,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
+                          L2_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_LABK,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                LGUI_T(KC_DEL),      KC_SPACE,       KC_LALT,          KC_RALT,      KC_SPACE,              RGUI_T(KC_BSPC)
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
@@ -199,6 +199,25 @@ bool kc_dot(uint16_t keycode, bool is_pressed) {
     return true;
 }
 
+bool kc_labk(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == KC_LABK;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LABK", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        tap_code16(KC_RABK);
+        return true;
+    }
+
+    tap_code16(KC_LABK);
+    return true;
+}
+
+
 #ifdef OLED_ENABLE
 #include <stdio.h>
 
@@ -339,6 +358,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if(kc_dot(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(kc_labk(keycode, record->event.pressed)){
         return false;
     }
 
