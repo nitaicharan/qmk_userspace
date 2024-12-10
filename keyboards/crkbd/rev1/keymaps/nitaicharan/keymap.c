@@ -46,21 +46,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-bool kc_minus(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_MINUS;
+bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
+    bool is_key = keycode == L1_MINUS;
 
-    if (!is_key || !is_pressed){
+    if (!is_key || !is_pressed || !is_tap){
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_MINUS", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "kc_minus", keycode, is_pressed);
 
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(KC_EQUAL);
-        return true;
+    if (!(get_mods() & MOD_MASK_SHIFT)) {
+        return false;
     }
 
-    tap_code(KC_MINUS);
+    tap_code16(S(KC_EQUAL));
     return true;
 }
 
@@ -329,7 +328,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u, time: %5u, int: %u, count: %u\n", "process_record_user", keycode, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
-    if(kc_minus(keycode, record->event.pressed)){
+    if(kc_minus(keycode, record->event.pressed, record->tap.count)){
         return false;
     }
 
