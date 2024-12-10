@@ -63,24 +63,23 @@ bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
     return true;
 }
 
-bool kc_left_bracket(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_LEFT_BRACKET;
+bool kc_left_bracket(uint16_t keycode, bool is_pressed, bool is_tap) {
+    bool is_key = keycode == L2_LBRC;
 
-    if (!is_key || !is_pressed){
+    if (!is_key || !is_pressed || !is_tap){
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LEFT_BRACKET", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "kc_left_bracket", keycode, is_pressed);
 
-    if (get_mods() & MOD_MASK_SHIFT) {
-        uint8_t mod_state = get_mods();
-        set_mods(mod_state & ~MOD_MASK_SHIFT);
-        tap_code(KC_RIGHT_BRACKET);
-        set_mods(mod_state);
-        return true;
+    if (!(get_mods() & MOD_MASK_SHIFT)) {
+        return false;
     }
 
-    tap_code(KC_LEFT_BRACKET);
+    uint8_t mod_state = get_mods();
+    set_mods(mod_state & ~MOD_MASK_SHIFT);
+    tap_code16(KC_RIGHT_BRACKET);
+    set_mods(mod_state);
     return true;
 }
 
@@ -332,7 +331,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if(kc_left_bracket(keycode, record->event.pressed)){
+    if(kc_left_bracket(keycode, record->event.pressed, record->tap.count)){
         return false;
     }
 
