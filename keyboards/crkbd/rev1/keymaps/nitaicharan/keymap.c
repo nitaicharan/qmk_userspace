@@ -3,8 +3,8 @@
 
 enum layers {
     _BASE_LAYER = 0,
-    _NUMBER_LAYER = 1,
-    _MEDIA_LAYER = 2
+    _NUMBERS_LAYER = 1,
+    _FUNCTIONS_LAYER = 2
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -12,33 +12,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------|
                            KC_GRV,          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LEFT_CURLY_BRACE,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                         L1_MINUS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     RALT_SCLN,                     KC_QUOT,
+                          KC_MINS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     LALT_SCLN,                     KC_QUOT,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          L2_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_LABK,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
+                          KC_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_LABK,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
-                                                                               LGUI_T(KC_DEL),      KC_SPACE,       KC_LALT,          KC_RALT,      KC_SPACE,              RGUI_T(KC_BSPC)
+                                                                               LGUI_T(KC_DEL),        L1_SPC,       KC_LALT,          KC_RALT,        L2_SPC,              RGUI_T(KC_BSPC)
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
   ),
 
-    [_NUMBER_LAYER] = LAYOUT_split_3x6_3(
+    [_NUMBERS_LAYER] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
-                          XXXXXXX,       XXXXXXX,        KC_F12,         KC_F9,         KC_F8,         KC_F7,                                           KC_7,          KC_8,          KC_9,          KC_0,      KC_SLASH,                    KC_EQUAL,
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                           KC_7,          KC_8,          KC_9,          KC_0,      KC_SLASH,                    KC_EQUAL,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_TRNS,       XXXXXXX,        KC_F11,         KC_F6,         KC_F5,         KC_F4,                                           KC_4,          KC_5,          KC_6,       XXXXXXX,       XXXXXXX,                     KC_TRNS,
+                          XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       KC_TRNS,       XXXXXXX,                                           KC_4,          KC_5,          KC_6,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_TRNS,       XXXXXXX,        KC_F10,         KC_F3,         KC_F2,         KC_F1,                                           KC_1,          KC_2,          KC_3,       KC_PSCR,       XXXXXXX,                     KC_TRNS,
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                           KC_1,          KC_2,          KC_3,       KC_PSCR,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                       KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,                      KC_TRNS
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
   ),
 
-    [_MEDIA_LAYER] = LAYOUT_split_3x6_3(
+    [_FUNCTIONS_LAYER] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
-                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
+                          XXXXXXX,       XXXXXXX,        KC_F12,         KC_F9,         KC_F8,         KC_F7,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_TRNS,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       KC_VOLD,       KC_VOLU,       XXXXXXX,       XXXXXXX,                     KC_TRNS,
+                          XXXXXXX,       XXXXXXX,        KC_F11,         KC_F6,         KC_F5,         KC_F4,                                        XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       KC_TRNS,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_TRNS,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       UG_VALD,       UG_VALU,       XXXXXXX,       XXXXXXX,                     KC_TRNS,
+                          XXXXXXX,       XXXXXXX,        KC_F10,         KC_F3,         KC_F2,         KC_F1,                                        XXXXXXX,       UG_VALD,       UG_VALU,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                       KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,                      KC_TRNS
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
-    bool is_key = keycode == L1_MINUS;
+    bool is_key = keycode == KC_MINS;
 
     if (!is_key || !is_pressed || !is_tap){
         return false;
@@ -64,7 +64,7 @@ bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
 }
 
 bool kc_left_bracket(uint16_t keycode, bool is_pressed, bool is_tap) {
-    bool is_key = keycode == L2_LBRC;
+    bool is_key = keycode == KC_LBRC;
 
     if (!is_key || !is_pressed || !is_tap){
         return false;
