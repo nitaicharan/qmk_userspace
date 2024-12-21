@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
     bool is_key = keycode == KC_MINS;
 
-    if (!is_key || !is_pressed || !is_tap){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -72,14 +72,14 @@ bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
         return false;
     }
 
-    tap_code16(S(KC_EQUAL));
+    tap_code(KC_EQUAL);
     return true;
 }
 
 bool kc_left_bracket(uint16_t keycode, bool is_pressed, bool is_tap) {
     bool is_key = keycode == KC_LBRC;
 
-    if (!is_key || !is_pressed || !is_tap){
+    if (!is_key || !is_pressed){
         return false;
     }
 
@@ -91,7 +91,7 @@ bool kc_left_bracket(uint16_t keycode, bool is_pressed, bool is_tap) {
 
     uint8_t mod_state = get_mods();
     set_mods(mod_state & ~MOD_MASK_SHIFT);
-    tap_code16(KC_RIGHT_BRACKET);
+    tap_code(KC_RIGHT_BRACKET);
     set_mods(mod_state);
     return true;
 }
