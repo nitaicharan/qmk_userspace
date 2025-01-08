@@ -6,6 +6,8 @@ enum layers {
     _NUMBER_LAYER = 1,
     _FUNCTION_LAYER = 2,
     _MEDIA_LAYER = 3,
+    _MODIFIER_1_LAYER = 4,
+    _MODIFIER_2_LAYER = 5,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -13,11 +15,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------|
                            KC_GRV,          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LEFT_CURLY_BRACE,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          KC_MINS,        LALT_A,        LSFT_S,        LCTL_D,        LGUI_F,          KC_G,                                           KC_H,        RGUI_J,        RCTL_K,        RSFT_L,     LALT_SCLN,                     KC_QUOT,
+                          KC_MINS,        LALT_A,        LSFT_S,        LCTL_D,          L3_F,          KC_G,                                           KC_H,          L4_J,        RCTL_K,        RSFT_L,     LALT_SCLN,                     KC_QUOT,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                           KC_LBRC,          KC_Z,          KC_X,          KC_C,          KC_V,          KC_B,                                           KC_N,          KC_M,       KC_LABK,        KC_DOT,   KC_QUESTION,               KC_LEFT_PAREN,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
-                                                                               LGUI_T(KC_DEL),        L1_SPC,        L3_MOD,          KC_RALT,        L2_SPC,              RGUI_T(KC_BSPC)
+                                                                                       KC_DEL,        L1_SPC,        L5_MOD,          KC_RALT,        L2_SPC,       KC_BSPC
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
   ),
 
@@ -44,6 +46,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                       KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,                      KC_TRNS
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
   ),
+    [_MODIFIER_1_LAYER] = LAYOUT_split_3x6_3(
+  //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                     LSFT(KC_7),    LSFT(KC_8),    LSFT(KC_9),      KC_SLASH,      KC_EQUAL,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
+                          XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       XXXXXXX,       XXXXXXX,                                        KC_LEFT,       KC_DOWN,         KC_UP,      KC_RIGHT,       KC_QUOT,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                         KC_TAB,    LSFT(KC_2),    LSFT(KC_3),       XXXXXXX,       KC_LPRN,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
+                                                                                      KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,                      KC_TRNS
+                                                             //`-----------------------------------------------------------'  `-----------------------------------------------------------'
+  ),
+    [_MODIFIER_2_LAYER] = LAYOUT_split_3x6_3(
+  //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
+                          XXXXXXX,        KC_GRV,    LSFT(KC_9),      KC_ENTER,    LSFT(KC_7),       XXXXXXX,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
+                          XXXXXXX,       KC_MINS,    LSFT(KC_6),    LSFT(KC_5),    LSFT(KC_4),     KC_ESCAPE,                                        XXXXXXX,       XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
+                          XXXXXXX,       KC_LBRC,    LSFT(KC_3),    LSFT(KC_2),    LSFT(KC_1),       XXXXXXX,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
+  //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
+                                                                                      KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,                      KC_TRNS
+                                                             //`-----------------------------------------------------------'  `-----------------------------------------------------------'
+  ),
 
     [_MEDIA_LAYER] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
@@ -66,7 +90,7 @@ bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "kc_minus", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_MINS", keycode, is_pressed);
 
     if (!(get_mods() & MOD_MASK_SHIFT)) {
         return false;
@@ -387,20 +411,20 @@ void keyboard_post_init_user(void) {
   //debug_mouse=true;
 }
 
-const key_override_t left_key_override = ko_make_basic(MOD_MASK_GUI, KC_H, KC_LEFT);
-const key_override_t right_key_override = ko_make_basic(MOD_MASK_GUI, RSFT_L, KC_RIGHT);
-const key_override_t up_key_override = ko_make_basic(MOD_MASK_GUI, RCTL_K, KC_UP);
-const key_override_t down_key_override = ko_make_basic(MOD_MASK_GUI, RGUI_J, KC_DOWN);
-const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_E, KC_ENTER);
-const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, KC_G, KC_ESC);
-const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, KC_N, KC_TAB);
-
-const key_override_t *key_overrides[] = {
-    &left_key_override,
-    &right_key_override,
-    &up_key_override,
-    &down_key_override,
-    &enter_key_override,
-    &escape_key_override,
-    &tab_key_override,
-};
+// const key_override_t left_key_override = ko_make_basic(MOD_MASK_GUI, KC_H, KC_LEFT);
+// const key_override_t right_key_override = ko_make_basic(MOD_MASK_GUI, RSFT_L, KC_RIGHT);
+// const key_override_t up_key_override = ko_make_basic(MOD_MASK_GUI, RCTL_K, KC_UP);
+// const key_override_t down_key_override = ko_make_basic(MOD_MASK_GUI, RGUI_J, KC_DOWN);
+// const key_override_t enter_key_override = ko_make_basic(MOD_MASK_GUI, KC_E, KC_ENTER);
+// const key_override_t escape_key_override = ko_make_basic(MOD_MASK_GUI, KC_G, KC_ESC);
+// const key_override_t tab_key_override = ko_make_basic(MOD_MASK_GUI, KC_N, KC_TAB);
+//
+// const key_override_t *key_overrides[] = {
+//     &left_key_override,
+//     &right_key_override,
+//     &up_key_override,
+//     &down_key_override,
+//     &enter_key_override,
+//     &escape_key_override,
+//     &tab_key_override,
+// };
