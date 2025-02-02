@@ -1,7 +1,8 @@
 #pragma once
 
 #define BOOTMAGIC_ROW 0
-#define BOOTMAGIC_COLUMN 1
+#undef BOOTMAGIC_COLUMN
+#define BOOTMAGIC_COLUMN 5
 #define DYNAMIC_KEYMAP_LAYER_COUNT 6
 
 //#define USE_MATRIX_I2C
@@ -10,7 +11,7 @@
 // #define MASTER_RIGHT
 // #define EE_HANDS
 
-#define TAPPING_TERM 135
+#define TAPPING_TERM 200
 //#define QUICK_TAP_TERM 0
 
 #define PERMISSIVE_HOLD
