@@ -13,7 +13,7 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_LAYER] = LAYOUT_split_3x6_3(
   //|-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------|
-                           KC_GRV,          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LEFT_CURLY_BRACE,
+                           KC_GRV,          KC_Q,          KC_W,          KC_E,          KC_R,          KC_T,                                           KC_Y,          KC_U,          KC_I,          KC_O,          KC_P,         KC_LCBR,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                           KC_MINS,        LALT_A,        LSFT_S,        LCTL_D,          L4_F,          KC_G,                                           KC_H,          L5_J,        RCTL_K,        RSFT_L,     LALT_SCLN,                     KC_QUOT,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
     [_LAYER_4] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
-                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                     LSFT(KC_6),      KC_ENTER,    LSFT(KC_5),    LSFT(KC_4),      KC_EQUAL,                     XXXXXXX,
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                     LSFT(KC_6),      KC_ENTER,      KC_EQUAL,    LSFT(KC_4),       KC_LCBR,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
                           XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       XXXXXXX,       XXXXXXX,                                        KC_LEFT,       KC_DOWN,         KC_UP,      KC_RIGHT,       KC_QUOT,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
@@ -155,14 +155,14 @@ bool kc_question(uint16_t keycode, bool is_pressed) {
     return true;
 }
 
-bool kc_left_curly_brace(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_LEFT_CURLY_BRACE;
+bool kc_lcbr(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == KC_LCBR;
 
     if (!is_key || !is_pressed){
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LEFT_CURLY_BRACE", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LCBR", keycode, is_pressed);
 
     if (get_mods() & MOD_MASK_SHIFT) {
         tap_code(KC_RIGHT_BRACKET);
@@ -379,7 +379,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if(kc_left_curly_brace(keycode, record->event.pressed)){
+    if(kc_lcbr(keycode, record->event.pressed)){
         return false;
     }
 
