@@ -24,11 +24,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_LAYER_1] = LAYOUT_split_3x6_3(
   //,-------------------------------------------------------------------------------------------------------.                                ,-------------------------------------------------------------------------------------------------------.
-                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        MS_BTN2,       MS_BTN1,       XXXXXXX,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       KC_TRNS,       XXXXXXX,                                        XXXXXXX,       KC_VOLD,       KC_VOLU,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
+                          XXXXXXX,       KC_TRNS,       KC_TRNS,       KC_TRNS,       KC_TRNS,       XXXXXXX,                                        MS_WHLL,       MS_WHLD,       MS_WHLU,       MS_WHLR,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------|                                |--------------+--------------+--------------+--------------+--------------+----------------------------|
-                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       UG_VALD,       UG_VALU,       KC_PSCR,       XXXXXXX,                     XXXXXXX,
+                          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                        XXXXXXX,       KC_VOLD,       KC_VOLU,       XXXXXXX,       XXXXXXX,                     XXXXXXX,
   //|----------------------------+--------------+--------------+--------------+--------------+--------------+--------------|  |--------------+--------------+--------------+--------------+--------------+--------------+----------------------------|
                                                                                       KC_TRNS,       KC_TRNS,       KC_TRNS,          KC_TRNS,       KC_TRNS,       KC_TRNS
                                                              //`-----------------------------------------------------------'  `-----------------------------------------------------------'
@@ -250,6 +250,77 @@ bool kc_labk(uint16_t keycode, bool is_pressed) {
     return true;
 }
 
+bool ms_whlu(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == MS_WHLU;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLU", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        tap_code16(MS_UP);
+        return true;
+    }
+
+    tap_code16(MS_WHLU);
+    return true;
+}
+
+bool ms_whld(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == MS_WHLD;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLD", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        tap_code16(MS_DOWN);
+        return true;
+    }
+
+    tap_code16(MS_WHLD);
+    return true;
+}
+
+bool ms_whll(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == MS_WHLL;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLL", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        tap_code16(MS_LEFT);
+        return true;
+    }
+
+    tap_code16(MS_WHLL);
+    return true;
+}
+
+bool ms_whlr(uint16_t keycode, bool is_pressed) {
+    bool is_key = keycode == MS_WHLR;
+
+    if (!is_key || !is_pressed){
+        return false;
+    }
+
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLR", keycode, is_pressed);
+
+    if (get_mods() & MOD_MASK_SHIFT) {
+        tap_code16(MS_RGHT);
+        return true;
+    }
+
+    tap_code16(MS_WHLR);
+    return true;
+}
 
 #ifdef OLED_ENABLE
 #include <stdio.h>
@@ -395,6 +466,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     if(kc_labk(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ms_whlu(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ms_whld(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ms_whll(keycode, record->event.pressed)){
+        return false;
+    }
+
+    if(ms_whlr(keycode, record->event.pressed)){
         return false;
     }
 
