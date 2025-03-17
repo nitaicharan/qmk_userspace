@@ -1,5 +1,29 @@
 #include QMK_KEYBOARD_H
 #include "print.h"
+
+enum custom_keycodes {
+    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
+    LALT_A,
+    LSFT_S,
+    LCTL_D,
+    RCTL_K,
+    RSFT_L,
+    LALT_SCLN,
+    SMTD_KEYCODES_END,
+};
+#include "sm_td.h"
+
+void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
+    switch (keycode) {
+        SMTD_MT(LALT_A, KC_A, KC_LALT)
+        SMTD_MT(LSFT_S, KC_S, KC_LSFT)
+        SMTD_MT(LCTL_D, KC_D, KC_LCTL)
+        SMTD_MT(RCTL_K, KC_K, KC_RCTL)
+        SMTD_MT(RSFT_L, KC_L, KC_RSFT)
+        SMTD_MT(LALT_SCLN, KC_SCLN, KC_LALT)
+    }
+}
+
 enum layers {
     _BASE_LAYER = 0,
     _LAYER_1 = 1,
@@ -432,6 +456,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u, time: %5u, int: %u, count: %u\n", "process_record_user", keycode, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+
+    if (!process_smtd(keycode, record)) {
+        return false;
+    }
 
     if(kc_minus(keycode, record->event.pressed, record->tap.count)){
         return false;
