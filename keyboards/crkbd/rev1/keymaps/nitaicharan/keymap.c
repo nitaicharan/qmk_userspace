@@ -1,29 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "print.h"
 
-enum custom_keycodes {
-    SMTD_KEYCODES_BEGIN = SAFE_RANGE,
-    LALT_A,
-    LSFT_S,
-    LCTL_D,
-    RCTL_K,
-    RSFT_L,
-    LALT_SCLN,
-    SMTD_KEYCODES_END,
-};
-#include "sm_td.h"
-
-void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
-    switch (keycode) {
-        SMTD_MT(LALT_A, KC_A, KC_LALT)
-        SMTD_MT(LSFT_S, KC_S, KC_LSFT)
-        SMTD_MT(LCTL_D, KC_D, KC_LCTL)
-        SMTD_MT(RCTL_K, KC_K, KC_RCTL)
-        SMTD_MT(RSFT_L, KC_L, KC_RSFT)
-        SMTD_MT(LALT_SCLN, KC_SCLN, KC_LALT)
-    }
-}
-
 enum layers {
     _BASE_LAYER = 0,
     _LAYER_1 = 1,
@@ -104,246 +81,224 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+typedef struct {
+    const uint16_t key;
+    const uint16_t expected;
+    const uint16_t result;
+    const char * const name;
+    const bool is_pressed;
+    const bool is_code16;
+    const bool needs_shift;
+} swap_config;
 
-bool kc_minus(uint16_t keycode, bool is_pressed, bool is_tap) {
-    bool is_key = keycode == KC_MINS;
+bool shift_swap_key(swap_config config) {
+    bool is_key = config.key == config.expected;
+    bool is_shift_pressed = get_mods() & MOD_MASK_SHIFT;
+    void (*tap)(uint16_t) = config.is_code16 ? tap_code16 : (void (*)(uint16_t))tap_code;
 
-    if (!is_key || !is_pressed){
+    if (!is_key || !config.is_pressed) {
         return false;
     }
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_MINS", keycode, is_pressed);
+    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n",
+            config.name, config.key, config.is_pressed);
 
-    if (!(get_mods() & MOD_MASK_SHIFT)) {
-        return false;
+    if (is_shift_pressed && !config.needs_shift) {
+        uint8_t mod_state = get_mods();
+        set_mods(mod_state & ~MOD_MASK_SHIFT);
+        tap(config.result);
+        set_mods(mod_state);
+        return true;
     }
 
-    tap_code(KC_EQUAL);
-    return true;
+    if (is_shift_pressed) {
+        tap(config.result);
+        return true;
+    }
+
+    return false;
 }
 
-bool kc_left_bracket(uint16_t keycode, bool is_pressed, bool is_tap) {
-    bool is_key = keycode == KC_LBRC;
+bool kc_minus(uint16_t keycode, bool is_pressed) {
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_MINS,
+        .result = KC_EQUAL,
+        .name = "KC_MINS",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
+    return shift_swap_key(config);
+}
 
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "kc_left_bracket", keycode, is_pressed);
+bool kc_left_bracket(uint16_t keycode, bool is_pressed) {
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_LBRC,
+        .result = KC_RIGHT_BRACKET,
+        .name = "kc_left_bracket",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = false,
+    };
 
-    if (!(get_mods() & MOD_MASK_SHIFT)) {
-        return false;
-    }
-
-    uint8_t mod_state = get_mods();
-    set_mods(mod_state & ~MOD_MASK_SHIFT);
-    tap_code(KC_RIGHT_BRACKET);
-    set_mods(mod_state);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_left_paren(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_LEFT_PAREN;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_LEFT_PAREN,
+        .result = KC_0,
+        .name = "KC_LEFT_PAREN",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LEFT_PAREN", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code(KC_0);
-        return true;
-    }
-
-    tap_code16(KC_LEFT_PAREN);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_question(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_QUESTION;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_QUESTION,
+        .result = KC_BACKSLASH,
+        .name = "KC_QUESTION",
+        .is_pressed = is_pressed,
+        .is_code16 = true,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_QUESTION", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code(KC_BACKSLASH);
-        return true;
-    }
-
-    tap_code16(KC_QUESTION);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_lcbr(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_LCBR;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_LCBR,
+        .result = KC_RIGHT_BRACKET,
+        .name = "KC_LCBR",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LCBR", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code(KC_RIGHT_BRACKET);
-        return true;
-    }
-
-    tap_code16(S(KC_LEFT_BRACKET));
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_equal(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_EQUAL;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_EQUAL,
+        .result = KC_MINUS,
+        .name = "KC_EQUAL",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_EQUAL", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code(KC_MINUS);
-        return true;
-    }
-
-    tap_code(KC_EQUAL);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_slash(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_SLASH;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_SLASH,
+        .result = KC_BACKSLASH,
+        .name = "KC_SLASH",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = false,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_SLASH", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        uint8_t mod_state = get_mods();
-        set_mods(mod_state & ~MOD_MASK_SHIFT);
-        tap_code(KC_BACKSLASH);
-        set_mods(mod_state);
-        return true;
-    }
-
-    tap_code(KC_SLASH);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_dot(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_DOT;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_DOT,
+        .result = KC_COMMA,
+        .name = "KC_DOT",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = false,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_DOT", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        uint8_t mod_state = get_mods();
-        set_mods(mod_state & ~MOD_MASK_SHIFT);
-        tap_code(KC_COMMA);
-        set_mods(mod_state);
-        return true;
-    }
-
-    tap_code(KC_DOT);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool kc_labk(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == KC_LABK;
+    swap_config config = {
+        .key = keycode,
+        .expected = KC_LABK,
+        .result = KC_RABK,
+        .name = "KC_LABK",
+        .is_pressed = is_pressed,
+        .is_code16 = true,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "KC_LABK", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(KC_RABK);
-        return true;
-    }
-
-    tap_code16(KC_LABK);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool ms_whlu(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == MS_WHLU;
+    swap_config config = {
+        .key = keycode,
+        .expected = MS_WHLU,
+        .result = MS_UP,
+        .name = "MS_WHLU",
+        .is_pressed = is_pressed,
+        .is_code16 = false,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLU", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(MS_UP);
-        return true;
-    }
-
-    tap_code16(MS_WHLU);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool ms_whld(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == MS_WHLD;
+    swap_config config = {
+        .key = keycode,
+        .expected = MS_WHLD,
+        .result = MS_DOWN,
+        .name = "MS_WHLD",
+        .is_pressed = is_pressed,
+        .is_code16 = true,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLD", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(MS_DOWN);
-        return true;
-    }
-
-    tap_code16(MS_WHLD);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool ms_whll(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == MS_WHLL;
+    swap_config config = {
+        .key = keycode,
+        .expected = MS_WHLL,
+        .result = MS_LEFT,
+        .name = "MS_WHLL",
+        .is_pressed = is_pressed,
+        .is_code16 = true,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLL", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(MS_LEFT);
-        return true;
-    }
-
-    tap_code16(MS_WHLL);
-    return true;
+    return shift_swap_key(config);
 }
 
 bool ms_whlr(uint16_t keycode, bool is_pressed) {
-    bool is_key = keycode == MS_WHLR;
+    swap_config config = {
+        .key = keycode,
+        .expected = MS_WHLR,
+        .result = MS_RGHT,
+        .name = "MS_WHLR",
+        .is_pressed = is_pressed,
+        .is_code16 = true,
+        .needs_shift = true,
+    };
 
-    if (!is_key || !is_pressed){
-        return false;
-    }
-
-    dprintf("Location: %s, kc: 0x%04X, pressed: %u\n", "MS_WHLR", keycode, is_pressed);
-
-    if (get_mods() & MOD_MASK_SHIFT) {
-        tap_code16(MS_RGHT);
-        return true;
-    }
-
-    tap_code16(MS_WHLR);
-    return true;
+    return shift_swap_key(config);
 }
 
 #ifdef OLED_ENABLE
@@ -457,15 +412,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     dprintf("Location: %s, kc: 0x%04X, pressed: %u, time: %5u, int: %u, count: %u\n", "process_record_user", keycode, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
 
-    if (!process_smtd(keycode, record)) {
+    if(kc_minus(keycode, record->event.pressed)){
         return false;
     }
 
-    if(kc_minus(keycode, record->event.pressed, record->tap.count)){
-        return false;
-    }
-
-    if(kc_left_bracket(keycode, record->event.pressed, record->tap.count)){
+    if(kc_left_bracket(keycode, record->event.pressed)){
         return false;
     }
 

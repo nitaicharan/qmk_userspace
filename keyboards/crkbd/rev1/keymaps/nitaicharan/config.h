@@ -13,17 +13,17 @@
 
 #define TAPPING_TERM 200
 #define QUICK_TAP_TERM 0
-#define PERMISSIVE_HOLD
-#define MAX_DEFERRED_EXECUTORS 10
 
-// #define LALT_A LALT_T(KC_A)
-// #define LSFT_S LSFT_T(KC_S)
-// #define LCTL_D LCTL_T(KC_D)
-// #define LGUI_F LGUI_T(KC_F)
-// #define RGUI_J RGUI_T(KC_J)
-// #define RCTL_K RCTL_T(KC_K)
-// #define RSFT_L RSFT_T(KC_L)
-// #define LALT_SCLN LALT_T(KC_SCLN)
+#define PERMISSIVE_HOLD
+
+#define LALT_A LALT_T(KC_A)
+#define LSFT_S LSFT_T(KC_S)
+#define LCTL_D LCTL_T(KC_D)
+#define LGUI_F LGUI_T(KC_F)
+#define RGUI_J RGUI_T(KC_J)
+#define RCTL_K RCTL_T(KC_K)
+#define RSFT_L RSFT_T(KC_L)
+#define LALT_SCLN LALT_T(KC_SCLN)
 
 #define L1_SPC LT(_LAYER_1, KC_SPACE)
 #define L2_SPC LT(_LAYER_2, KC_SPACE)
