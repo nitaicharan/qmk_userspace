@@ -16,14 +16,14 @@
 
 #define PERMISSIVE_HOLD
 
-#define LALT_A LALT_T(KC_A)
-#define LSFT_S LSFT_T(KC_S)
-#define LCTL_D LCTL_T(KC_D)
-#define LGUI_F LGUI_T(KC_F)
-#define RGUI_J RGUI_T(KC_J)
-#define RCTL_K RCTL_T(KC_K)
-#define RSFT_L RSFT_T(KC_L)
-#define LALT_SCLN LALT_T(KC_SCLN)
+// #define LALT_A LALT_T(KC_A)
+// #define LALT_SCLN LALT_T(KC_SCLN)
+// #define LSFT_S LSFT_T(KC_S)
+// #define RSFT_L RSFT_T(KC_L)
+// #define LCTL_D LCTL_T(KC_D)
+// #define RCTL_K RCTL_T(KC_K)
+// #define LGUI_F LGUI_T(KC_F)
+// #define RGUI_J RGUI_T(KC_J)
 
 #define L1_SPC LT(_LAYER_1, KC_SPACE)
 #define L2_SPC LT(_LAYER_2, KC_SPACE)
