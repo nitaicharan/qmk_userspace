@@ -127,7 +127,11 @@ bool shift_swap_key(swap_config config) {
     dprintf("Location: %s, kc: 0x%04X, pressed: %u\n",
             config.name, config.key, config.is_pressed);
 
-    if (is_shift_pressed && !config.needs_shift) {
+    if (!is_shift_pressed) {
+        return false;
+    }
+
+    if (!config.needs_shift) {
         uint8_t mod_state = get_mods();
         set_mods(mod_state & ~MOD_MASK_SHIFT);
         tap(config.result);
@@ -135,12 +139,8 @@ bool shift_swap_key(swap_config config) {
         return true;
     }
 
-    if (is_shift_pressed) {
-        tap(config.result);
-        return true;
-    }
-
-    return false;
+    tap(config.result);
+    return true;
 }
 
 bool kc_minus(uint16_t keycode, bool is_pressed) {
